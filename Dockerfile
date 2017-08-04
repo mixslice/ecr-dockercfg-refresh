@@ -1,8 +1,8 @@
 FROM alpine
 
-MAINTAINER caseylucas <caseylucas@gmail.com>
+MAINTAINER bensonz <mr.bz@hotmail.com>
 
-ADD https://storage.googleapis.com/kubernetes-release/release/v1.4.6/bin/linux/amd64/kubectl /usr/local/bin/
+ADD https://s3.cn-north-1.amazonaws.com.cn/kubernetes-bin/kubectl /usr/local/bin/
 COPY ecr-dockercfg-refresh.sh /usr/local/bin/
 
 RUN set -x && \
@@ -18,4 +18,3 @@ RUN set -x && \
 # ENV REFRESH_INTERVAL=0
 
 CMD "/usr/local/bin/ecr-dockercfg-refresh.sh"
-
