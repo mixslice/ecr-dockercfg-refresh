@@ -19,9 +19,10 @@ refresh_secret()
   if [ "x$AWS_REGION" == "x" ]; then
     AWS_REGION=`curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}'`
   fi
-  if [ "x$SECRET_NAME" == "x" ]; then SECRET_NAME=${AWS_REGION}-ecr-registry-key; fi
-  aws ecr --region=$AWS_REGION get-authorization-token
-  TOKEN=`aws ecr --region=${AWS_REGION} get-authorization-token --output text --query authorizationData[].authorizationToken | base64 -d | cut -f2 -d:`
+  if [ "x$SECRET_NAME" == "x" ]; then
+    SECRET_NAME=aws-ecr-${AWS_REGION};
+  fi
+  TOKEN=`aws ecr --region=${AWS_REGION} get-authorization-token --output text --query "authorizationData[].authorizationToken" | base64 -d | cut -f2 -d:`
   DOCKER_CFG_SECRET=`printf '{"%s":{"username":"AWS","password":"%s"}}' "https://${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com.cn" "${TOKEN}" | base64 | tr -d '\n'`
 
 cat <<EOF | kubectl apply -f -
