@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.4
 
 MAINTAINER bensonz <mr.bz@hotmail.com>
 
