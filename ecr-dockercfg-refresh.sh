@@ -30,14 +30,3 @@ type: kubernetes.io/dockercfg
 EOF
   done
 }
-
-if [ "x$REFRESH_INTERVAL" == "x" ]; then REFRESH_INTERVAL=21600; fi
-
-refresh_secret
-if [ $REFRESH_INTERVAL -ne 0 ]
-then
-  while sleep $REFRESH_INTERVAL
-  do
-    refresh_secret
-  done
-fi
